@@ -40,7 +40,7 @@ export class ProductListComponent implements OnInit {
   listProducts(){
 
     this.searchMode = this.route.snapshot.paramMap.has('keyword');
-
+    console.log('search: ' + this.searchMode);
     if(this.searchMode){
       this.handleSearchProducts();
     }
@@ -70,24 +70,15 @@ export class ProductListComponent implements OnInit {
   handleListProducts(){
     //check if "id" parameter is available
     const hasCategoryId: boolean = this.route.snapshot.paramMap.has('id');
-
+ 
     if(hasCategoryId){
       // o simbolo + converte de string para number
-      this.currentCategoryId = +this.route.snapshot.paramMap.get('id');
+      this.currentCategoryId = Number(this.route.snapshot.paramMap.get('id'));
 
     }
     else{
       this.currentCategoryId=1;
     }
-
-
-
-
-    //
-    // checar se temos um id de categorias diferente que o anterior.
-    // o angular reutilizara um componente se estiver sendo visualizado no momento.
-    // se tivermos um id de categoria diferente do anterior o numero de pagina será redefi-
-    // nido para 1.
 
     if(this.previousCategoryId != this.currentCategoryId){
         this.thePageNumber = 1;
@@ -96,9 +87,6 @@ export class ProductListComponent implements OnInit {
     this.previousCategoryId = this.currentCategoryId;
 
     console.log(`currentCategoryId=${this.currentCategoryId}, thePageNumber=${this.thePageNumber}`);
-
-
-
 
   this.productService.getProductListPaginate(this.thePageNumber -1,
                                             this.thePageSize,
